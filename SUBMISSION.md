@@ -11,7 +11,7 @@ AJAAI assessment deliverable for a Google Docs–inspired collaborative editor w
 | Architecture note | Included | `ARCHITECTURE.md` |
 | AI workflow note | Included | `AI_WORKFLOW.md` |
 | Automated tests | Included | `tests/` — run with `npm test` (13 passing) |
-| Live deployment link | Placeholder | _Add production URL here after deploy (e.g. Vercel)._ |
+| Live deployment link | Included | https://collab-docs-xi-nine.vercel.app |
 | Demo video | Placeholder | _Add walkthrough recording URL here (sharing + import + auto-save)._ |
 
 ### Local bootstrap (Windows PowerShell)

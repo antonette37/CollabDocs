@@ -41,9 +41,11 @@ In the Vercel project settings, set:
 
 | Variable | Value |
 | --- | --- |
-| `DATABASE_URL` | `file:./dev.db` |
+| `DATABASE_URL` | `file:/tmp/collabdocs.db` |
 
-Do **not** commit `*.db` files — Vercel creates a fresh database during build.
+> On Vercel, the app copies the build-time seeded `prisma/dev.db` into `/tmp` (writable) on cold start. Do **not** commit `*.db` files — Vercel creates a fresh database during build.
+
+Live app: [https://collab-docs-xi-nine.vercel.app](https://collab-docs-xi-nine.vercel.app)
 
 ### Useful scripts
 
