@@ -1,7 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { configureVercelDatabaseUrl } from "@/lib/db-init";
-
-configureVercelDatabaseUrl();
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;

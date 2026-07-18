@@ -74,13 +74,13 @@ export async function updateDocument(
 
     const title = data.title?.trim();
     if (title !== undefined && title.length === 0) {
-      return { ok: false, error: "Title cannot be empty" };
+      data = { ...data, title: "Untitled Document" };
     }
 
     await prisma.document.update({
       where: { id: documentId },
       data: {
-        ...(title !== undefined ? { title } : {}),
+        ...(data.title !== undefined ? { title: data.title.trim() || "Untitled Document" } : {}),
         ...(data.content !== undefined ? { content: data.content } : {}),
       },
     });

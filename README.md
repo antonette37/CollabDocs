@@ -6,7 +6,7 @@ Lightweight collaborative document editor (Google Docs–inspired) built for an 
 
 - **Frontend**: Next.js App Router (`/src`), TypeScript, Tailwind CSS, Lucide React, TipTap
 - **Backend**: Next.js Server Actions
-- **Database**: Prisma + SQLite (`prisma/dev.db`)
+- **Database**: Prisma + Neon Postgres (SQLite locally only if configured; production uses Postgres)
 - **Auth**: Simulated user switcher (Antonette / Bob / Charlie) via cookie
 
 ## Features
@@ -33,19 +33,28 @@ Open [http://localhost:3000](http://localhost:3000).
 > Tip: In PowerShell, chain commands with `;` (not `&&`), or run them one at a time as shown above.
 > If `npm` is blocked by execution policy, use `npm.cmd` / `npx.cmd`.
 
-### Vercel deployment
+### Vercel deployment (Neon Postgres)
 
-The production `build` script generates Prisma Client, pushes the SQLite schema, seeds Antonette/Bob/Charlie, then runs `next build`.
+SQLite cannot persist across Vercel serverless instances. CollabDocs uses **Neon Postgres** (free).
 
-In the Vercel project settings, set:
+**One-time setup in Vercel:**
 
-| Variable | Value |
-| --- | --- |
-| `DATABASE_URL` | `file:/tmp/collabdocs.db` |
-
-> On Vercel, the app copies the build-time seeded `prisma/dev.db` into `/tmp` (writable) on cold start. Do **not** commit `*.db` files — Vercel creates a fresh database during build.
+1. Open your project → **Storage** → **Create Database** → choose **Neon Postgres** (Hobby/free).
+2. Connect it to **collab-docs**. Vercel injects:
+   - `DATABASE_URL` (pooled)
+   - `DATABASE_URL_UNPOOLED` (direct)
+3. Delete any old `DATABASE_URL` value like `file:/tmp/collabdocs.db` if it conflicts.
+4. Redeploy from **Deployments**.
 
 Live app: [https://collab-docs-xi-nine.vercel.app](https://collab-docs-xi-nine.vercel.app)
+
+**Local `.env`:** copy both Neon connection strings into `.env` (see `.env.example`), then:
+
+```powershell
+npx.cmd prisma db push
+npx.cmd prisma db seed
+npm.cmd run dev
+```
 
 ### Useful scripts
 
