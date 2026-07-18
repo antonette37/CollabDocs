@@ -3,6 +3,8 @@ import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
 import { Providers } from "@/components/providers";
 import { Header } from "@/components/header";
 import { getAllUsers, getCurrentUser } from "@/lib/auth";
+import { ensureDatabaseReady } from "@/lib/db-init";
+import { prisma } from "@/lib/prisma";
 import "./globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -30,6 +32,7 @@ export default async function RootLayout({
   let bootError: string | null = null;
 
   try {
+    await ensureDatabaseReady(prisma);
     users = await getAllUsers();
     currentUser = await getCurrentUser();
   } catch (error) {

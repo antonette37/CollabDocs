@@ -3,9 +3,11 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { ensureDatabaseReady } from "@/lib/db-init";
 import { CURRENT_USER_COOKIE } from "@/lib/constants";
 
 export async function switchUser(userId: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  await ensureDatabaseReady(prisma);
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
     return { ok: false, error: "User not found" };
